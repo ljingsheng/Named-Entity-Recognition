@@ -1,4 +1,4 @@
-# Named-Entity-Recognition
+Named-Entity-Recognition
 Chinese NER Demo Project Basing on LSTM and Aiming at General Concepts
 
 ## 1. Corpus Resource
@@ -26,7 +26,7 @@ It is a matrix with 6 dimensions:
     Column 1 means "Orgnization"
     Column 2 means "Place"
     Column 3 means "Other Entities"
-    Column 4 means "Name of Someone"
+    Column 4 means "Name of Someone"
     Column 5 means "Abbreviation"
 
 
@@ -35,22 +35,57 @@ Only **0 and 1** are used for building this matrix, 0 representinng "no" and 1 "
 
 ## 4. Framwork of LSTM Neural Network
 
-TBC...
+We apply the same model as what is listed on Keras Documentaion.
 
+    from keras.models import Sequential
+    from keras.layers import Dense, Dropout
+    from keras.layers import Embeddin    from keras.layers import LSTM
+
+    model = Sequential()
+    model.add(Embedding(max_Features, output_dim=256))
+    model.add(LSTM(128))
+    model.add(Dropout(0.5))
+    model.add(Dense(6, activation='sigmoid'))
+    
+    model.compile(loss='binary_crossentropy',
+                  optimizer='rmsprop',
+                  metrics=['accuracy'])
+
+We modify its entrance and exit only. Therefore it is a squential model with one-dimension input and 6-dimension output.
+
+This framwork performed well on our training materials (accuracy = 100% when epoches = 5) thus there is no need for further modification unless we go to next step: transfer learning.
 
 ## 5. Demo Http Server
-### 5.1 "Bottle" Package with a Template 
+### 5.1 "bottle" Package with a Template 
 
-TBC...
+Author: LJQ
+
+Package: bottle
+
+**Set up Your Server**
+
+    python pyHttpServer.py function.py [port]
+
+For example:
+
+    python pyHttpServer.py NER_v4.py 11187
+
+**Variables:**
+
+     name: a string for the title of the webpage
+     desc: a string for description of the webpage (below the title)
+     examples：a list containing strings for demonstration/test/exhition
+     port: an integer for dafault port (this variable can be omitted)
+
+**Function Run(param):**
+
+    param: a string from webpage
+    return: return value of your task, where carriage return could be written as "\n"
+
+**Notes: Variables needed initializing must be global variables.**
 
 ### 5.3 Jieba Manual Dictionary
 
 We developeed a manual dictionary when generating the input set, including all of possible entity words that showed up in our corpus.
 
 It is beneficial when cutting input sentences.
-
-TBC...
-
-### 5.3
-
-TBC...
